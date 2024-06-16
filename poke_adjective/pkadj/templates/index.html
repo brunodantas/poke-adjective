@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+</head>
+<body>
+    <article class="mt-8 prose prose-slate mx-auto lg:prose-lg">
+        <h1>Poké-Adjectives</h1>
+        {% for i in letters %}
+        <a href="{% url "poke_adj" i %}">{{ i }}</a> &nbsp;
+        {% endfor %}
+    </article>
+    <br>
+    {% for pkmn in pokemon_list %}
+    <div class="card w-96 bg-base-100 shadow-xl flex md:inline-flex place-items-center hover:scale-110 duration-300">
+        <figure><img src="{{ pkmn.1 }}" alt="{{ pkmn.0.name }}" /></figure>
+        <div class="card-body">
+        <h2 class="card-title">
+            {{ pkmn.0.id_ }} {{ pkmn.2.title }} {{ pkmn.0.name.title }}
+        </h2>
+        {% comment %} <p>If a dog chews shoes whose shoes does he choose?</p> {% endcomment %}
+        <div class="card-actions justify-end">
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+</body>
+</html>
