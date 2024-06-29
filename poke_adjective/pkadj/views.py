@@ -12,13 +12,6 @@ from django.template import loader
 
 
 @cache
-def get_artwork(pokemon):
-    return pb.SpriteResource(
-        "pokemon", pokemon.id_, other=True, official_artwork=True
-    ).url
-
-
-@cache
 def get_adjectives(letter):
     with open(os.path.join(settings.BASE_DIR, "english-adjectives.txt")) as f:
         return [adj for adj in f.readlines() if adj[0] == letter]
@@ -34,13 +27,13 @@ def poke_adj(request, letter):
         if pkmn.pokemon_species.name[0] == letter.lower()
     ]
 
-    with ThreadPoolExecutor() as threads:
-        futures = {pkmn: threads.submit(get_artwork, pkmn) for pkmn in pokemon_list}
-        artworks = {pkmn: future.result() for pkmn, future in futures.items()}
+    def get_artwork(pkmn):
+        return f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{pkmn.id_}.png"
+
     pokemon_tuples = [
         (
             pkmn,
-            artworks[pkmn],
+            get_artwork(pkmn),
             random.choice(get_adjectives(letter.lower())),
         )
         for pkmn in pokemon_list
