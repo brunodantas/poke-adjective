@@ -14,7 +14,7 @@ from django.template import loader
 @cache
 def get_adjectives(letter):
     with open(os.path.join(settings.BASE_DIR, "english-adjectives.txt")) as f:
-        return [adj for adj in f.readlines() if adj[0] == letter]
+        return [adj for adj in f.readlines() if adj[0] == letter] or [letter.upper()]
 
 
 def poke_adj(request, letter):
